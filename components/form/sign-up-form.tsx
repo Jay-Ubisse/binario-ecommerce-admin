@@ -3,6 +3,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import * as z from "zod";
 import {
   Form,
   FormControl,
@@ -12,8 +16,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import * as z from "zod";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useRouter } from "next/navigation";
+
+const roles = [
+  { label: "Administrador", value: "admin" },
+  { label: "Gestor", value: "manager" },
+  { label: "Vendedor", value: "seller" },
+] as const;
 
 const formSchema = z
   .object({
@@ -28,6 +49,9 @@ const formSchema = z
     confirmPassword: z
       .string()
       .min(1, "A confirmação da palavra-passe é necessária"),
+    role: z.string({
+      required_error: "Please select a language.",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -35,6 +59,7 @@ const formSchema = z
   });
 
 export const SignUpForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,11 +68,28 @@ export const SignUpForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        role: values.role,
+        password: values.password,
+      }),
+    });
+
+    if (response.ok) {
+      router.push("/sign-in");
+    }
   }
 
   return (
@@ -123,6 +165,69 @@ export const SignUpForm = () => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Cargo</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? roles.find((role) => role.value === field.value)
+                              ?.label
+                          : "Selecione o cargo"}
+                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput
+                        placeholder="Search framework..."
+                        className="h-9"
+                      />
+                      <CommandEmpty>Cargo não encontrado.</CommandEmpty>
+                      <CommandGroup>
+                        {roles.map((role) => (
+                          <CommandItem
+                            value={role.label}
+                            key={role.value}
+                            onSelect={() => {
+                              form.setValue("role", role.value);
+                            }}
+                          >
+                            {role.label}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                role.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormDescription>
+                  O cargo é que vai delimitar as permissões no dashboard.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
