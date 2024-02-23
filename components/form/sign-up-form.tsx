@@ -29,6 +29,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const roles = [
   { label: "Administrador", value: "admin" },
@@ -73,6 +74,7 @@ export const SignUpForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    toast.loading("Criando usuário...", { id: "1" });
     const response = await fetch("/api/user", {
       method: "POST",
       headers: {
@@ -88,7 +90,10 @@ export const SignUpForm = () => {
     });
 
     if (response.ok) {
+      toast.success("Usuário criado com sucesso.", { id: "1" });
       router.push("/sign-in");
+    } else {
+      toast.error("Ocorreu um erro. Tente novamente.", { id: "1" });
     }
   }
 
