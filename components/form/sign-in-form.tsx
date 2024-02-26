@@ -3,6 +3,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import * as z from "zod";
+import { signIn } from "next-auth/react";
 import {
   Form,
   FormControl,
@@ -12,8 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import * as z from "zod";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().min(1, "O e-mail é obrigatório").email("Email inválido"),
@@ -25,6 +29,9 @@ const formSchema = z.object({
 });
 
 export const SignInForm = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,8 +40,41 @@ export const SignInForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    toast.loading("Carregando...", { id: "1" });
+    signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    }).then((res) => {
+      if (res?.error) {
+        toast.error("Ocorreu um erro. Tente novamente.", { id: "1" });
+        console.log(res);
+        setLoading(false);
+      } else {
+        toast.success("Usuário criado com sucesso.", { id: "1" });
+        router.push("/dashboard");
+      }
+    });
+
+    {
+      /*
+    const signInData = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+    });
+
+    if (signInData?.error) {
+      toast.error("Ocorreu um erro. Tente novamente.", { id: "1" });
+      console.log(signInData);
+    } else {
+      toast.success("Usuário criado com sucesso.", { id: "1" });
+      router.push("/dashboard");
+    }
+  
+  */
+    }
   }
 
   return (
@@ -72,7 +112,9 @@ export const SignInForm = () => {
             )}
           />
           <div className="w-fit ml-auto mt-4">
-            <Button type="submit">Entrar</Button>
+            <Button type="submit" disabled={loading}>
+              Entrar
+            </Button>
           </div>
         </div>
       </form>

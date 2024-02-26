@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactHotToaster } from "@/providers/toaster";
+import { Session } from "@/providers/session";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReactHotToaster />
-        {children}
+        <Session>
+          <ReactHotToaster />
+          {children}
+        </Session>
       </body>
     </html>
   );
