@@ -1,23 +1,27 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import * as z from "zod";
-import { signIn } from "next-auth/react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Session } from "next-auth";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import * as z from "zod";
+
+interface Props {
+  session: Session | null;
+}
 
 const formSchema = z.object({
   email: z.string().min(1, "O e-mail é obrigatório").email("Email inválido"),
@@ -53,28 +57,10 @@ export const SignInForm = () => {
         console.log(res);
         setLoading(false);
       } else {
-        toast.success("Usuário criado com sucesso.", { id: "1" });
-        router.push("/dashboard");
+        toast.success("Sessão iniciada com sucesso.", { id: "1" });
+        router.push("/");
       }
     });
-
-    {
-      /*
-    const signInData = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-    });
-
-    if (signInData?.error) {
-      toast.error("Ocorreu um erro. Tente novamente.", { id: "1" });
-      console.log(signInData);
-    } else {
-      toast.success("Usuário criado com sucesso.", { id: "1" });
-      router.push("/dashboard");
-    }
-  
-  */
-    }
   }
 
   return (
