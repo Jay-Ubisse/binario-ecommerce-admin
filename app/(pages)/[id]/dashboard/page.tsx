@@ -1,38 +1,58 @@
-"use client";
-
-import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { authOption } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { Overview } from "./tabs-content/overview";
 
-const Dashboard = () => {
+const Dashboard = async () => {
+  const session = await getServerSession(authOption);
+
+  if (!session) {
+    redirect("/");
+  }
+
   return (
     <div>
       <section>
         <h1 className="text-slate-800 font-semibold text-3xl">Dashboard</h1>
       </section>
       <Tabs defaultValue="overview" className="w-full mt-5">
-        <TabsList className="grid max-w-[40rem] grid-cols-5">
-          <TabsTrigger value="overview" className="!px-2">
-            Visão Geral
-          </TabsTrigger>
+        <TabsList className="grid max-w-[40rem] grid-cols-5 flex-none">
+          <TabsTrigger value="overview">Visão Geral</TabsTrigger>
           <TabsTrigger value="orders">Pedidos</TabsTrigger>
           <TabsTrigger value="products">Produtos</TabsTrigger>
           <TabsTrigger value="customers">Clientes</TabsTrigger>
           <TabsTrigger value="users">Usuarios</TabsTrigger>
         </TabsList>
-        <TabsContent value="overview">
-          <Card className="min-h-[500px]">Visão Geral</Card>
+        <TabsContent
+          value="overview"
+          className="min-h-[30rem] max-h-[40rem] p-4 border"
+        >
+          <Overview />
         </TabsContent>
-        <TabsContent value="orders">
-          <Card className="min-h-[500px]">Pedidos</Card>
+        <TabsContent
+          value="orders"
+          className="min-h-[30rem] max-h-[40rem] p-4 border"
+        >
+          <div className="min-h-[30rem] max-h-[40rem] p-4">Pedidos</div>
         </TabsContent>
-        <TabsContent value="products">
-          <Card className="min-h-[500px]">Produtos</Card>
+        <TabsContent
+          value="products"
+          className="min-h-[30rem] max-h-[40rem] p-4 border"
+        >
+          <div className="min-h-[30rem] max-h-[40rem] p-4">Produtos</div>
         </TabsContent>
-        <TabsContent value="customers">
-          <Card className="min-h-[500px]">Clientes</Card>
+        <TabsContent
+          value="customers"
+          className="min-h-[30rem] max-h-[40rem] p-4 border"
+        >
+          <div className="min-h-[30rem] max-h-[40rem] p-4">Clientes</div>
         </TabsContent>
-        <TabsContent value="users">
-          <Card className="min-h-[500px]">Usuarios</Card>
+        <TabsContent
+          value="users"
+          className="min-h-[30rem] max-h-[40rem] p-4 border"
+        >
+          <div className="min-h-[30rem] max-h-[40rem] p-4">Usuarios</div>
         </TabsContent>
       </Tabs>
     </div>

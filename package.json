@@ -11,6 +11,8 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@next-auth/prisma-adapter": "^1.0.7",
+    "@nivo/bar": "^0.84.0",
+    "@nivo/core": "^0.84.0",
     "@prisma/client": "^5.10.1",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
