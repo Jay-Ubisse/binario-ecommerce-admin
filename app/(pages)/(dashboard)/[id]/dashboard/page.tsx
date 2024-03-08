@@ -3,6 +3,7 @@ import { authOption } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Overview } from "./tabs-content/overview";
+import { Products } from "./tabs-content/products";
 
 const Dashboard = async () => {
   const session = await getServerSession(authOption);
@@ -27,17 +28,11 @@ const Dashboard = async () => {
         <TabsContent value="overview" className="min-h-[30rem] max-h-[40rem]">
           <Overview />
         </TabsContent>
-        <TabsContent
-          value="orders"
-          className="min-h-[30rem] max-h-[40rem] p-4 border"
-        >
+        <TabsContent value="orders" className="min-h-[30rem] max-h-[40rem]">
           <div className="min-h-[30rem] max-h-[40rem]">Pedidos</div>
         </TabsContent>
-        <TabsContent
-          value="products"
-          className="min-h-[30rem] max-h-[40rem] p-4 border"
-        >
-          <div className="min-h-[30rem] max-h-[40rem]">Produtos</div>
+        <TabsContent value="products" className="min-h-[30rem] max-h-[40rem]">
+          <Products />
         </TabsContent>
         <TabsContent value="customers" className="min-h-[30rem] max-h-[40rem]">
           <div className="min-h-[30rem] max-h-[40rem] p-4">Clientes</div>
