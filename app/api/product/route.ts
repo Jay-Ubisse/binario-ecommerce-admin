@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
         quantityInStock: Number(quantityInStock),
         description,
         image: fileUrl,
+        quantitySold: 0,
       },
     });
 

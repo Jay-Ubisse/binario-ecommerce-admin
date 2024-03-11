@@ -31,7 +31,7 @@ const formSchema = z.object({
   description: z.string(),
   image: z.string(),
   category: z.string().min(1, "A categoria é obrigatória"),
-  quantityInStock: z.coerce.number(),
+  quantityInStock: z.string(),
 });
 
 export function AddProductForm() {
@@ -59,7 +59,7 @@ export function AddProductForm() {
       description: "",
       image: "",
       category: "",
-      quantityInStock: 0,
+      quantityInStock: "",
     },
   });
 
@@ -73,7 +73,7 @@ export function AddProductForm() {
       formData.append("description", values.description);
       formData.append("image", file);
       formData.append("category", values.category);
-      formData.append("quantityInStock", values.description);
+      formData.append("quantityInStock", values.quantityInStock);
 
       const response = await axios.post("/api/product", formData, {
         headers: {
