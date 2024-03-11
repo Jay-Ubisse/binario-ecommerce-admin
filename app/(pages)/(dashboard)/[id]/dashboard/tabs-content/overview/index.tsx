@@ -41,10 +41,10 @@ export const Overview = () => {
         />
       </div>
       <div className="mt-5 flex justify-between">
-        <Card className="w-[64%] h-[26rem]">
+        <Card className="w-[64%] lg:h-[20rem] 2xl:h-[26rem]">
           <BarChart data={barChartData} />
         </Card>
-        <Card className="w-[34%] h-[26rem] overflow-y-scroll p-4 text-slate-800">
+        <Card className="w-[34%] lg:h-[20rem] 2xl:h-[26rem] overflow-y-scroll p-4 text-slate-800">
           <h3 className="text-base font-normal">Últimos Pedidos</h3>
           <p className="text-xs font-light">
             Foram feitas 345 vendas este mês.

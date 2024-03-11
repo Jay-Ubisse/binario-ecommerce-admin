@@ -25,20 +25,35 @@ const Dashboard = async () => {
           <TabsTrigger value="customers">Clientes</TabsTrigger>
           <TabsTrigger value="users">Usuarios</TabsTrigger>
         </TabsList>
-        <TabsContent value="overview" className="min-h-[30rem] max-h-[40rem]">
+        <TabsContent
+          value="overview"
+          className="2xl:min-h-[30rem] 2xl:max-h-[40rem]"
+        >
           <Overview />
         </TabsContent>
-        <TabsContent value="orders" className="min-h-[30rem] max-h-[40rem]">
-          <div className="min-h-[30rem] max-h-[40rem]">Pedidos</div>
+        <TabsContent
+          value="orders"
+          className="2xl:min-h-[30rem] 2xl:max-h-[40rem]"
+        >
+          Pedidos
         </TabsContent>
-        <TabsContent value="products" className="min-h-[30rem] max-h-[40rem]">
+        <TabsContent
+          value="products"
+          className="2xl:min-h-[30rem] 2xl:max-h-[40rem]"
+        >
           <Products />
         </TabsContent>
-        <TabsContent value="customers" className="min-h-[30rem] max-h-[40rem]">
-          <div className="min-h-[30rem] max-h-[40rem] p-4">Clientes</div>
+        <TabsContent
+          value="customers"
+          className="2xl:min-h-[30rem] 2xl:max-h-[40rem]"
+        >
+          Clientes
         </TabsContent>
-        <TabsContent value="users" className="min-h-[30rem] max-h-[40rem]">
-          <div className="min-h-[30rem] max-h-[40rem] p-4">Usuarios</div>
+        <TabsContent
+          value="users"
+          className="2xl:min-h-[30rem] 2xl:max-h-[40rem]"
+        >
+          Usuarios
         </TabsContent>
       </Tabs>
     </div>
