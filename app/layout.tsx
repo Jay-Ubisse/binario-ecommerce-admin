@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactHotToaster } from "@/providers/toaster";
 import { Session } from "@/providers/session";
+import { ContextProvider } from "@/contexts/products-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Session>
-          <ReactHotToaster />
-          {children}
+          <ContextProvider>
+            <ReactHotToaster />
+            {children}
+          </ContextProvider>
         </Session>
       </body>
     </html>
