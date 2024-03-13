@@ -1,15 +1,11 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { ReactNode, createContext, useContext, useState } from "react";
 
 // Define the type of your context data
-interface DataProps {
-  filter: string;
-  value: string;
-}
 type ContextType = {
-  data: DataProps;
-  updateData: (data: DataProps) => void;
+  filtersData: filtersDataProps;
+  updateData: (data: filtersDataProps) => void;
 };
 
 // Create the context
@@ -19,17 +15,17 @@ const ProductsContext = createContext<ContextType | undefined>(undefined);
 export const ContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [data, setData] = useState<DataProps>({
-    filter: "",
+  const [filtersData, setFiltersData] = useState<filtersDataProps>({
+    filter: "all",
     value: "",
   });
 
-  const updateData = (data: DataProps) => {
-    setData(data);
+  const updateData = (data: filtersDataProps) => {
+    setFiltersData(data);
   };
 
   return (
-    <ProductsContext.Provider value={{ data, updateData }}>
+    <ProductsContext.Provider value={{ filtersData, updateData }}>
       {children}
     </ProductsContext.Provider>
   );

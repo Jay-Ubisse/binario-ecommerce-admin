@@ -1,9 +1,11 @@
+import { ContextProvider } from "@/contexts/products-context";
+import { Session } from "@/providers/session";
+import { ReactHotToaster } from "@/providers/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
+import { ReactQueryProvider } from "@/providers/react-query";
 import "./globals.css";
-import { ReactHotToaster } from "@/providers/toaster";
-import { Session } from "@/providers/session";
-import { ContextProvider } from "@/contexts/products-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,10 +23,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Session>
-          <ContextProvider>
-            <ReactHotToaster />
-            {children}
-          </ContextProvider>
+          <ReactQueryProvider>
+            <ContextProvider>
+              <ReactHotToaster />
+              {children}
+            </ContextProvider>
+          </ReactQueryProvider>
         </Session>
       </body>
     </html>
