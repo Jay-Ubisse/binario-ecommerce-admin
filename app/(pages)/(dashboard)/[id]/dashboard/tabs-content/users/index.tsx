@@ -1,10 +1,10 @@
 "use client";
 
 import { AddProductForm } from "@/components/add-product-form";
-import { ProductsFilter } from "./products-filter";
-import { ProductsTable } from "./products-table";
+import { UsersFilter } from "./users-filter";
+import { UsersTable } from "./users-table";
 
-export const Products = () => {
+export const Users = () => {
   return (
     <div>
       <div className="ml-auto w-fit">
@@ -12,10 +12,10 @@ export const Products = () => {
       </div>
       <div className="flex mt-8">
         <div className="w-1/5">
-          <ProductsFilter />
+          <UsersFilter />
         </div>
         <div className="w-4/5">
-          <ProductsTable />
+          <UsersTable />
         </div>
       </div>
     </div>

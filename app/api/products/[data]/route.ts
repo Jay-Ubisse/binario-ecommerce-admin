@@ -1,49 +1,51 @@
+import { db } from "@/lib/db";
+
 import { NextResponse } from "next/server";
 
 export const GET = async (req: Request, res: NextResponse) => {
-  const data = [
-    {
-      id: 1,
-      name: "product",
-      price: 10,
-      description: "heyyy",
-      image: "/image.jpg",
-      category: "cat",
-      quantityInStock: 10,
-      quantitySold: 0,
-      createdAt: "20/20/2000",
-      updatedAt: "10/20/2000",
-    },
-    {
-      id: 2,
-      name: "productxxx",
-      price: 10,
-      description: "hddd",
-      image: "/imagess.jpg",
-      category: "cataaa",
-      quantityInStock: 20,
-      quantitySold: 0,
-      createdAt: "20/10/2000",
-      updatedAt: "10/2/2000",
-    },
-  ];
-  return data;
-  /*
   try {
-    const id = req.url.split("/blog/")[1];
-    const post = await db.product.findFirst({ where: { id: id } });
+    const urlArray = req.url.split("/product/");
+    const filtersArray = urlArray[1].split("-");
 
-    if (!post) {
-      return NextResponse.json(
-        { message: "Not found.", post },
-        { status: 404 }
-      );
+    const filter = filtersArray[0];
+    const value = filtersArray[1];
+    console.log(filter);
+
+    let products;
+    switch (filter) {
+      case "all":
+        products = await db.product.findMany({});
+        break;
+      case "id":
+        products = await db.product.findMany({
+          where: {
+            id: Number(value),
+          },
+        });
+        break;
+      case "name":
+        products = await db.product.findMany({
+          where: {
+            name: value,
+          },
+        });
+        break;
+      case "category":
+        products = await db.product.findMany({
+          where: {
+            category: value,
+          },
+        });
+        break;
+      default:
+        products = await db.product.findMany({});
+        break;
     }
-    return NextResponse.json({ message: "Success", post }, { status: 200 });
+
+    return NextResponse.json(products);
   } catch (error) {
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
-  */
 };
 
 /* 

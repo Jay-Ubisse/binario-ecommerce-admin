@@ -1,10 +1,9 @@
 import { db } from "@/lib/db";
 
+import { mkdir, stat, writeFile } from "fs/promises";
 import mime from "mime";
-import { join } from "path";
-import { stat, mkdir, writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-import _ from "lodash";
+import { join } from "path";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -72,10 +71,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  const products = await db.product.findMany({});
-
-  return NextResponse.json(products);
 }

@@ -5,7 +5,7 @@ export async function getProducts(
 ): Promise<ProductsProps[] | undefined> {
   try {
     const response = await axios.get<ProductsProps[]>(
-      `/api/product/${data.filter}-${data.value}`
+      `/api/products/${data.filter}-${data.value}`
     );
     return response.data;
   } catch (error) {

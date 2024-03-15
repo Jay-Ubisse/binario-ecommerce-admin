@@ -30,7 +30,7 @@ const FormSchema = z.object({
   value: z.string().optional(),
 });
 
-export function ProductsFilter() {
+export function UsersFilter() {
   const { updateData } = useProductsContext();
 
   const form = useForm<z.infer<typeof FormSchema>>({

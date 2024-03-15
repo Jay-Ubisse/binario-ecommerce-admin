@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Overview } from "./tabs-content/overview";
 import { Products } from "./tabs-content/products";
+import { Users } from "./tabs-content/users";
 
 const Dashboard = async () => {
   const session = await getServerSession(authOption);
@@ -53,7 +54,7 @@ const Dashboard = async () => {
           value="users"
           className="2xl:min-h-[30rem] 2xl:max-h-[40rem]"
         >
-          Usuarios
+          <Users />
         </TabsContent>
       </Tabs>
     </div>

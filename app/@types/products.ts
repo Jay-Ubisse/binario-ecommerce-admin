@@ -13,5 +13,5 @@ interface ProductsProps {
 
 interface filtersDataProps {
   filter: string;
-  value: string;
+  value?: string;
 }
