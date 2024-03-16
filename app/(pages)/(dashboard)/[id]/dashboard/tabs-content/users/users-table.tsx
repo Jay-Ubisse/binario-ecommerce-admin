@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,16 +10,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useProductsContext } from "@/contexts/products-context";
+import { useUsersContext } from "@/contexts/users-context";
 import { getUsers } from "@/services/users";
 import { format } from "date-fns";
-import { Info } from "lucide-react";
+import { Info, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 
 export function UsersTable() {
-  const { filtersData } = useProductsContext();
+  const { data } = useSession();
+
+  const { filtersData } = useUsersContext();
 
   useEffect(() => {
     refetch();
@@ -66,44 +69,81 @@ export function UsersTable() {
       </div>
     );
 
+  function getRole(role: String): string {
+    let roleName: string;
+
+    switch (role) {
+      case "admin":
+        roleName = "Administrador";
+        break;
+      case "manager":
+        roleName = "Gestor";
+        break;
+      case "seller":
+        roleName = "Vendedor";
+        break;
+      default:
+        roleName = "";
+        break;
+    }
+
+    return roleName;
+  }
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
-          <TableHead>Nome</TableHead>
-          <TableHead>Apelido</TableHead>
-          <TableHead>Permissão</TableHead>
-          <TableHead>Última vez online</TableHead>
-          <TableHead>Data de registro</TableHead>
-          <TableHead>Ultima actualizacao</TableHead>
-          <TableHead></TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {usersData.map((userData, index) => (
-          <TableRow key={index}>
-            <TableCell>{userData.id}</TableCell>
-            <TableCell className="text-center">{userData.firstName}</TableCell>
-            <TableCell className="text-center">{userData.lastName}</TableCell>
-            <TableCell className="text-center">{userData.role}</TableCell>
-            <TableCell className="text-center">
-              {format(userData.createdAt, "MM/dd/yyyy")}
-            </TableCell>
-            <TableCell className="text-center">
-              {format(userData.updatedAt, "MM/dd/yyyy")}
-            </TableCell>
-            <TableCell className="text-center">
-              <Link href={"#"}>
-                <Button size={"sm"} className="flex gap-2">
-                  <Info size={20} />
-                  <span>Ver detalhas</span>
-                </Button>
-              </Link>
-            </TableCell>
+    <>
+      <Button size={"sm"} className="flex gap-2 mb-6">
+        <RefreshCw size={18} />
+        <span>Actualizar</span>
+      </Button>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">ID</TableHead>
+            <TableHead>Nome</TableHead>
+            <TableHead>Apelido</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Função</TableHead>
+            <TableHead>Data de registro</TableHead>
+            <TableHead
+              className={`${data?.user.role === "admin" ? "block" : "hidden"}`}
+            ></TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {usersData.map((userData, index) => (
+            <TableRow key={index}>
+              <TableCell className="line-clamp-1">{userData.id}</TableCell>
+              <TableCell>{userData.firstName}</TableCell>
+              <TableCell>{userData.lastName}</TableCell>
+              <TableCell>{userData.email}</TableCell>
+              <TableCell>{getRole(userData.role)}</TableCell>
+              <TableCell>{format(userData.updatedAt, "MM/dd/yyyy")}</TableCell>
+              <TableCell
+                className={`${
+                  data?.user.role === "admin"
+                    ? "flex gap-2 items-center"
+                    : "hidden"
+                }`}
+              >
+                <Link href={"#"}>
+                  <Button size={"sm"} className="flex gap-2 bg-green-500">
+                    <Info size={20} />
+                    <span>Editar</span>
+                  </Button>
+                </Link>
+                <Link href={"#"}>
+                  <Button size={"sm"} className="flex gap-2 bg-red-500">
+                    <Info size={20} />
+                    <span>Eliminar</span>
+                  </Button>
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
   );
 }

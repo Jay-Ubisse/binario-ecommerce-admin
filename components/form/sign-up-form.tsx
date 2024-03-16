@@ -75,7 +75,7 @@ export const SignUpForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     toast.loading("Criando usuário...", { id: "1" });
-    const response = await fetch("/api/user", {
+    const response = await fetch("/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export const SignUpForm = () => {
 
     if (response.ok) {
       toast.success("Usuário criado com sucesso.", { id: "1" });
-      router.push("/sign-in");
+      router.push("/");
     } else {
       toast.error("Ocorreu um erro. Tente novamente.", { id: "1" });
     }

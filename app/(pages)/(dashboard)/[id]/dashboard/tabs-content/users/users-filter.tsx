@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useProductsContext } from "@/contexts/products-context";
+import { useUsersContext } from "@/contexts/users-context";
 
 const FormSchema = z.object({
   filter: z.string({
@@ -31,7 +31,7 @@ const FormSchema = z.object({
 });
 
 export function UsersFilter() {
-  const { updateData } = useProductsContext();
+  const { updateData } = useUsersContext();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -61,15 +61,10 @@ export function UsersFilter() {
                   <SelectItem value="all">Todos</SelectItem>
                   <SelectItem value="id">ID</SelectItem>
                   <SelectItem value="name">Nome</SelectItem>
-                  <SelectItem value="category">Categoria</SelectItem>
-                  <SelectItem value="quantityInStock">
-                    Quantidade em stock
-                  </SelectItem>
-                  <SelectItem value="quantitySold">
-                    Quantidade vendida
-                  </SelectItem>
+                  <SelectItem value="lastName">Apelido</SelectItem>
+                  <SelectItem value="email">Email</SelectItem>
+                  <SelectItem value="role">Função</SelectItem>
                   <SelectItem value="createdAt">Data de catastro</SelectItem>
-                  <SelectItem value="updatedAt">Ultima actualizacao</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

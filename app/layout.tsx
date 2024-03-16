@@ -1,4 +1,3 @@
-import { ContextProvider } from "@/contexts/products-context";
 import { Session } from "@/providers/session";
 import { ReactHotToaster } from "@/providers/toaster";
 import type { Metadata } from "next";
@@ -24,10 +23,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <Session>
           <ReactQueryProvider>
-            <ContextProvider>
-              <ReactHotToaster />
-              {children}
-            </ContextProvider>
+            <ReactHotToaster />
+            {children}
           </ReactQueryProvider>
         </Session>
       </body>

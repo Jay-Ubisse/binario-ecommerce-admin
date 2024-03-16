@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ user: result });
+    return NextResponse.json({ product: result });
   } catch (e) {
     console.error("Error while trying to upload a file\n", e);
     return NextResponse.json(

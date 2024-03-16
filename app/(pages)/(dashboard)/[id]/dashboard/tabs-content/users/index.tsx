@@ -1,14 +1,30 @@
 "use client";
 
-import { AddProductForm } from "@/components/add-product-form";
+import { UsersContextProvider } from "@/contexts/users-context";
 import { UsersFilter } from "./users-filter";
 import { UsersTable } from "./users-table";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export const Users = () => {
+  const { data } = useSession();
+
   return (
-    <div>
+    <UsersContextProvider>
       <div className="ml-auto w-fit">
-        <AddProductForm />
+        <Link
+          href={`/sign-up/${data?.user.id}`}
+          className={`${data?.user.role === "admin" ? "block" : "hidden"}`}
+        >
+          <Button className="flex gap-1">
+            <span>
+              <PlusCircle className="h-5 w-5" />
+            </span>
+            <span>Novo Usuário</span>
+          </Button>
+        </Link>
       </div>
       <div className="flex mt-8">
         <div className="w-1/5">
@@ -18,6 +34,6 @@ export const Users = () => {
           <UsersTable />
         </div>
       </div>
-    </div>
+    </UsersContextProvider>
   );
 };

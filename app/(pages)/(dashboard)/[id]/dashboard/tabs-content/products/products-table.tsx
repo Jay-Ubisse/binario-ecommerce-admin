@@ -12,12 +12,15 @@ import {
 import { useProductsContext } from "@/contexts/products-context";
 import { getProducts } from "@/services/products";
 import { format } from "date-fns";
-import { Info } from "lucide-react";
+import { Info, RefreshCw } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 
 export function ProductsTable() {
+  const { data } = useSession();
+
   const { filtersData } = useProductsContext();
 
   useEffect(() => {
@@ -67,52 +70,70 @@ export function ProductsTable() {
     );
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
-          <TableHead>Nome</TableHead>
-          <TableHead>Categoria</TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead>Quantidade em stock</TableHead>
-          <TableHead>Quantidade vendida</TableHead>
-          <TableHead>Data de registro</TableHead>
-          <TableHead>Ultima actualizacao</TableHead>
-          <TableHead>Ultima actualizacao</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {productsData.map((productData) => (
-          <TableRow key={productData.id}>
-            <TableCell>{productData.id}</TableCell>
-            <TableCell className="text-center">{productData.name}</TableCell>
-            <TableCell className="text-center">
-              {productData.category}
-            </TableCell>
-            <TableCell className="text-center">{productData.price}</TableCell>
-            <TableCell className="text-center">
-              {productData.quantityInStock}
-            </TableCell>
-            <TableCell className="text-center">
-              {productData.quantitySold}
-            </TableCell>
-            <TableCell className="text-center">
-              {format(productData.createdAt, "MM/dd/yyyy")}
-            </TableCell>
-            <TableCell className="text-center">
-              {format(productData.updatedAt, "MM/dd/yyyy")}
-            </TableCell>
-            <TableCell className="text-center">
-              <Link href={"#"}>
-                <Button size={"sm"} className="flex gap-2">
-                  <Info size={20} />
-                  <span>Ver detalhas</span>
-                </Button>
-              </Link>
-            </TableCell>
+    <>
+      <Button size={"sm"} className="flex gap-2 mb-6">
+        <RefreshCw size={18} />
+        <span>Actualizar</span>
+      </Button>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">ID</TableHead>
+            <TableHead>Nome</TableHead>
+            <TableHead>Categoria</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Quantidade em stock</TableHead>
+            <TableHead>Quantidade vendida</TableHead>
+            <TableHead>Data de registro</TableHead>
+            <TableHead>Ultima actualizacao</TableHead>
+            <TableHead></TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {productsData.map((productData) => (
+            <TableRow key={productData.id}>
+              <TableCell>{productData.id}</TableCell>
+              <TableCell className="text-center">{productData.name}</TableCell>
+              <TableCell className="text-center">
+                {productData.category}
+              </TableCell>
+              <TableCell className="text-center">{productData.price}</TableCell>
+              <TableCell className="text-center">
+                {productData.quantityInStock}
+              </TableCell>
+              <TableCell className="text-center">
+                {productData.quantitySold}
+              </TableCell>
+              <TableCell className="text-center">
+                {format(productData.createdAt, "MM/dd/yyyy")}
+              </TableCell>
+              <TableCell className="text-center">
+                {format(productData.updatedAt, "MM/dd/yyyy")}
+              </TableCell>
+              <TableCell className="flex gap-2 items-center">
+                <Link href={"#"}>
+                  <Button size={"sm"} className="flex gap-2 bg-green-500">
+                    <Info size={20} />
+                    <span>Ver detalhas</span>
+                  </Button>
+                </Link>
+                <Link
+                  href={"#"}
+                  className={`${
+                    data?.user.role === "admin" ? "flex" : "hidden"
+                  }`}
+                >
+                  <Button size={"sm"} className="flex gap-2 bg-red-500">
+                    <Info size={20} />
+                    <span>Eliminar</span>
+                  </Button>
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
   );
 }

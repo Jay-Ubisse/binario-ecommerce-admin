@@ -75,7 +75,7 @@ export function AddProductForm() {
       formData.append("category", values.category);
       formData.append("quantityInStock", values.quantityInStock);
 
-      const response = await axios.post("/api/product", formData, {
+      const response = await axios.post("/api/products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

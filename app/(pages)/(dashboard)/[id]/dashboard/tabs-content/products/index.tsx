@@ -1,12 +1,13 @@
 "use client";
 
+import { ProductsContextProvider } from "@/contexts/products-context";
 import { AddProductForm } from "@/components/add-product-form";
 import { ProductsFilter } from "./products-filter";
 import { ProductsTable } from "./products-table";
 
 export const Products = () => {
   return (
-    <div>
+    <ProductsContextProvider>
       <div className="ml-auto w-fit">
         <AddProductForm />
       </div>
@@ -18,6 +19,6 @@ export const Products = () => {
           <ProductsTable />
         </div>
       </div>
-    </div>
+    </ProductsContextProvider>
   );
 };

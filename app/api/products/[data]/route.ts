@@ -2,16 +2,29 @@ import { db } from "@/lib/db";
 
 import { NextResponse } from "next/server";
 
+interface ProductsProps {
+  id: number;
+  name: string;
+  price: number;
+  description: string | null;
+  image: string;
+  category: string;
+  quantityInStock: number;
+  quantitySold: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export const GET = async (req: Request, res: NextResponse) => {
+  
   try {
-    const urlArray = req.url.split("/product/");
+    const urlArray = req.url.split("/products/");
     const filtersArray = urlArray[1].split("-");
 
     const filter = filtersArray[0];
     const value = filtersArray[1];
-    console.log(filter);
 
-    let products;
+    let products: ProductsProps[];
     switch (filter) {
       case "all":
         products = await db.product.findMany({});
@@ -41,11 +54,13 @@ export const GET = async (req: Request, res: NextResponse) => {
         products = await db.product.findMany({});
         break;
     }
+    
 
     return NextResponse.json(products);
   } catch (error) {
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
+  
 };
 
 /* 

@@ -9,10 +9,10 @@ type ContextType = {
 };
 
 // Create the context
-const ProductsContext = createContext<ContextType | undefined>(undefined);
+const UsersContext = createContext<ContextType | undefined>(undefined);
 
 // Define the provider component
-export const ProductsContextProvider: React.FC<{ children: ReactNode }> = ({
+export const UsersContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [filtersData, setFiltersData] = useState<filtersDataProps>({
@@ -25,15 +25,15 @@ export const ProductsContextProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <ProductsContext.Provider value={{ filtersData, updateData }}>
+    <UsersContext.Provider value={{ filtersData, updateData }}>
       {children}
-    </ProductsContext.Provider>
+    </UsersContext.Provider>
   );
 };
 
 // Custom hook to consume the context
-export const useProductsContext = () => {
-  const context = useContext(ProductsContext);
+export const useUsersContext = () => {
+  const context = useContext(UsersContext);
   if (!context) {
     throw new Error("useMyContext must be used within a MyProvider");
   }

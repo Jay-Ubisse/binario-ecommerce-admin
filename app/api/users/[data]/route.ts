@@ -2,15 +2,26 @@ import { db } from "@/lib/db";
 
 import { NextResponse } from "next/server";
 
+interface UsersProps {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export const GET = async (req: Request, res: NextResponse) => {
   try {
-    const urlArray = req.url.split("/product/");
+    const urlArray = req.url.split("/users/");
     const filtersArray = urlArray[1].split("-");
 
     const filter = filtersArray[0];
     const value = filtersArray[1];
 
-    let users;
+    let users: UsersProps[];
     switch (filter) {
       case "all":
         users = await db.user.findMany({});
@@ -37,7 +48,7 @@ export const GET = async (req: Request, res: NextResponse) => {
         });
         break;
       default:
-        users = await db.product.findMany({});
+        users = await db.user.findMany({});
         break;
     }
 
