@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const SignUp = async () => {
+const SignUp = async () => {
   const session = await getServerSession(authOption);
 
   if (!session) {
