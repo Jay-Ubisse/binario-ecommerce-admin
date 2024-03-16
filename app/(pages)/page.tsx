@@ -12,7 +12,7 @@ export default async function Home() {
     return (
       <main className="h-screen w-screen bg-gradient-to-tr from-primary to-secondary flex justify-center items-center">
         <div className="bg-gradient-to-tr from-primary/20 to-secondary/20 shadow rounded-lg text-center p-4 py-8 text-white min-w-[30%] max-w-[40%]">
-          <h1 className="text-4xl mb-8">Bem-Vindo de volta!</h1>
+          <h1 className="text-4xl mb-8">Bem-Vindo(a) de volta!</h1>
           <p className="font-light mb-10">
             Este é o lado administrativo do Ecommerce e é apenas restrito a
             usuários com permissão.
