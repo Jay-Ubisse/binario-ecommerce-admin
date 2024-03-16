@@ -1,6 +1,6 @@
 import { SignInForm } from "@/components/form/sign-in-form";
 
-export const SignIn = () => {
+const SignIn = () => {
   return (
     <div>
       <SignInForm />
