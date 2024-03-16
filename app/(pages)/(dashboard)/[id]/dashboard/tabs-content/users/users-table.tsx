@@ -17,6 +17,7 @@ import { Info, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
+import { Icons } from "@/components/loading-spinner";
 
 export function UsersTable() {
   const { data } = useSession();
@@ -36,8 +37,8 @@ export function UsersTable() {
 
   if (isLoading)
     return (
-      <div className="flex justify-between items-center px-4 py-2">
-        <p>A carregar...</p>
+      <div className="flex justify-between items-center px-4 py-2 w-full h-full">
+        <Icons.spinner className="h-6 w-6 ml-[45%] animate-spin text-primary" />
       </div>
     );
 
