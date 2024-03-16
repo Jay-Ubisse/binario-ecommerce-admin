@@ -13,11 +13,7 @@ export const metadata: Metadata = {
   description: "eCommerce for selling computer equipment",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
